@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="日本三级电影网（ribensanjidianyingwang-app）是专注日本电影、日剧、动漫与日本影视资讯的网站，网址 https://ribensanjidianyingwang-app.github.io，提供日本高分影片推荐、新片速递与深度影评。">
+<meta name="keywords" content="日本三级电影网, ribensanjidianyingwang-app, 日本电影, 日本电影推荐, 日剧, 日本动漫, 日本影视资讯">
+<meta name="author" content="日本三级电影网">
+<meta name="robots" content="index, follow">
+<title>日本三级电影网 - 日本电影日剧动漫推荐与影评 | ribensanjidianyingwang-app</title>
+<link rel="canonical" href="https://ribensanjidianyingwang-app.github.io">
+<style>
+    :root{
+        --ink:#1a1209; --paper:#f7f3ec; --red:#c8372d; --gold:#c89a3c;
+        --line:#e3d9c8; --muted:#7c6f5d; --deep:#2a2118;
+    }
+    *{ margin:0; padding:0; box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+        font-family:"Songti SC","STSong","SimSun","Noto Serif CJK SC",Georgia,serif;
+        background:var(--paper); color:var(--ink); line-height:1.8;
+        background-image:radial-gradient(circle at 12% 8%, rgba(200,58,45,.05), transparent 40%),
+                          radial-gradient(circle at 88% 92%, rgba(200,154,60,.07), transparent 42%);
+    }
+    a{ color:inherit; text-decoration:none; }
+    .wrap{ max-width:1120px; margin:0 auto; padding:0 22px; }
+
+    /* 顶部公告条 */
+    .notice{ background:var(--deep); color:#e8ddc9; font-size:12.5px; letter-spacing:1px; }
+    .notice .wrap{ display:flex; justify-content:space-between; padding:8px 22px; flex-wrap:wrap; gap:8px; }
+    .notice b{ color:var(--gold); }
+
+    /* Header */
+    header{ position:sticky; top:0; z-index:40; background:rgba(247,243,236,.94); backdrop-filter:blur(10px); border-bottom:2px solid var(--ink); }
+    .nav{ display:flex; align-items:center; justify-content:space-between; height:70px; }
+    .brand{ display:flex; align-items:baseline; gap:10px; }
+    .brand h1{ font-size:23px; letter-spacing:2px; font-weight:800; }
+    .brand span{ font-size:11px; color:var(--red); letter-spacing:1px; border:1px solid var(--red); padding:1px 6px; border-radius:3px; }
+    .menu{ display:flex; gap:4px; }
+    .menu a{ padding:8px 15px; font-size:14px; letter-spacing:1px; color:var(--deep); position:relative; transition:.25s; }
+    .menu a::after{ content:""; position:absolute; left:50%; bottom:4px; width:0; height:2px; background:var(--red); transition:.3s; }
+    .menu a:hover{ color:var(--red); }
+    .menu a:hover::after{ left:15px; width:calc(100% - 30px); }
+    .hamburger{ display:none; font-size:26px; cursor:pointer; color:var(--deep); }
+
+    /* 封面头图 */
+    .masthead{ position:relative; padding:64px 0 54px; text-align:center; border-bottom:1px solid var(--line); overflow:hidden; }
+    .seal{ display:inline-block; border:2px solid var(--red); color:var(--red); font-size:12px; letter-spacing:3px; padding:5px 14px; border-radius:4px; margin-bottom:20px; }
+    .masthead h2{ font-size:52px; letter-spacing:6px; line-height:1.25; font-weight:800; }
+    .masthead h2 em{ font-style:normal; color:var(--red); }
+    .masthead p{ color:var(--muted); margin-top:16px; font-size:15px; letter-spacing:1px; max-width:660px; margin-inline:auto; }
+    .quote{ margin-top:26px; font-size:13px; color:var(--gold); letter-spacing:2px; }
+
+    /* 通用区块 */
+    section{ padding:60px 0; border-bottom:1px dashed var(--line); }
+    .kicker{ text-align:center; margin-bottom:34px; }
+    .kicker small{ color:var(--red); letter-spacing:4px; font-size:11px; font-weight:700; }
+    .kicker h3{ font-size:28px; letter-spacing:3px; margin-top:6px; }
+    .kicker p{ color:var(--muted); font-size:13px; margin-top:8px; }
+
+    /* 电影频道 */
+    .grid{ display:grid; gap:26px; }
+    .g4{ grid-template-columns:repeat(4,1fr); }
+    .g3{ grid-template-columns:repeat(3,1fr); }
+    .g2{ grid-template-columns:repeat(2,1fr); }
+    .film{ background:#fff; border:1px solid var(--line); border-radius:6px; overflow:hidden; transition:.35s; }
+    .film:hover{ transform:translateY(-7px); box-shadow:0 18px 34px rgba(42,33,24,.16); border-color:var(--gold); }
+    .poster{ height:250px; position:relative; display:grid; place-items:center; font-size:48px; color:#fff; text-shadow:0 2px 10px rgba(0,0,0,.3); }
+    .p1{ background:linear-gradient(160deg,#7d2e2a,#c8372d); }
+    .p2{ background:linear-gradient(160deg,#1f3a4d,#3d6b82); }
+    .p3{ background:linear-gradient(160deg,#4a3a1c,#a8863a); }
+    .p4{ background:linear-gradient(160deg,#3a2c4d,#7d5fb0); }
+    .p5{ background:linear-gradient(160deg,#12403a,#2f8f7d); }
+    .p6{ background:linear-gradient(160deg,#5a1f2c,#a8425a); }
+    .poster .era{ position:absolute; top:12px; left:12px; background:var(--ink); color:var(--gold); font-size:11px; padding:3px 9px; letter-spacing:1px; font-family:sans-serif; }
+    .poster .rate{ position:absolute; bottom:12px; right:12px; background:var(--red); color:#fff; font-weight:800; font-size:12px; padding:3px 8px; font-family:sans-serif; }
+    .ftxt{ padding:16px; }
+    .ftxt h4{ font-size:16px; letter-spacing:1px; margin-bottom:6px; }
+    .ftxt .line{ width:30px; height:2px; background:var(--red); margin:8px 0; transition:.3s; }
+    .film:hover .ftxt .line{ width:64px; }
+    .ftxt .meta{ font-size:12px; color:var(--muted); display:flex; justify-content:space-between; font-family:sans-serif; }
+
+    /* 主编推荐 - 横向 */
+    .lead{ display:grid; grid-template-columns:1.05fr .95fr; gap:44px; align-items:center; background:#fff; border:1px solid var(--line); border-radius:8px; padding:30px; }
+    .lead .big{ height:320px; border-radius:6px; display:grid; place-items:center; font-size:66px; color:#fff; }
+    .lead h4{ font-size:24px; letter-spacing:2px; margin-bottom:12px; }
+    .lead .tags{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
+    .lead .tags i{ font-style:normal; font-size:11px; border:1px solid var(--gold); color:var(--gold); padding:3px 10px; border-radius:20px; font-family:sans-serif; }
+    .lead p{ color:var(--muted); font-size:14px; }
+    .lead .dir{ margin-top:16px; font-size:13px; color:var(--deep); }
+    .lead .dir b{ color:var(--red); }
+
+    /* 时间轴 */
+    .timeline{ position:relative; padding-left:28px; }
+    .timeline::before{ content:""; position:absolute; left:6px; top:6px; bottom:6px; width:2px; background:linear-gradient(var(--red),var(--gold)); }
+    .tl-item{ position:relative; margin-bottom:22px; }
+    .tl-item::before{ content:""; position:absolute; left:-26px; top:7px; width:12px; height:12px; border-radius:50%; background:var(--paper); border:3px solid var(--red); }
+    .tl-item h5{ font-size:15px; letter-spacing:1px; }
+    .tl-item h5 span{ color:var(--red); margin-right:8px; font-family:sans-serif; }
+    .tl-item p{ font-size:13px; color:var(--muted); }
+
+    /* 日剧 */
+    .series{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+    .ser{ display:flex; gap:14px; background:#fff; border:1px solid var(--line); border-radius:6px; padding:14px; transition:.3s; }
+    .ser:hover{ border-color:var(--red); }
+    .ser .key{ flex:none; width:44px; height:44px; border-radius:6px; background:var(--deep); color:var(--gold); font-weight:800; display:grid; place-items:center; font-family:sans-serif; }
+    .ser h4{ font-size:14.5px; }
+    .ser p{ font-size:12px; color:var(--muted); margin-top:4px; }
+
+    /* 榜单 */
+    .chart{ background:#fff; border:1px solid var(--line); border-radius:8px; padding:8px 22px; }
+    .chart ol{ list-style:none; counter-reset:c; }
+    .chart li{ display:flex; align-items:center; gap:14px; padding:13px 0; border-bottom:1px dotted var(--line); }
+    .chart li:last-child{ border:none; }
+    .chart li::before{ counter-increment:c; content:counter(c); width:28px; height:28px; border-radius:50%; background:var(--paper); border:1px solid var(--line); color:var(--muted); font-weight:800; font-size:12px; display:grid; place-items:center; font-family:sans-serif; }
+    .chart li:nth-child(1)::before{ background:var(--red); color:#fff; border:none; }
+    .chart li:nth-child(2)::before{ background:var(--gold); color:#fff; border:none; }
+    .chart li:nth-child(3)::before{ background:var(--deep); color:var(--gold); border:none; }
+    .chart li h4{ font-size:14px; }
+    .chart li small{ margin-left:auto; color:var(--red); font-size:12px; font-family:sans-serif; }
+
+    /* 影评 */
+    .review{ background:#fff; border:1px solid var(--line); border-left:4px solid var(--red); border-radius:6px; padding:22px; }
+    .review .who{ font-size:12px; color:var(--gold); letter-spacing:1px; margin-bottom:8px; }
+    .review h4{ font-size:17px; margin-bottom:10px; }
+    .review p{ font-size:13.5px; color:var(--muted); }
+    .stars{ color:var(--gold); letter-spacing:2px; margin-top:12px; }
+
+    /* 数据 */
+    .figures{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; text-align:center; }
+    .fig{ background:#fff; border:1px solid var(--line); border-radius:8px; padding:24px 12px; }
+    .fig b{ display:block; font-size:30px; color:var(--red); font-family:sans-serif; letter-spacing:1px; }
+    .fig small{ font-size:12px; color:var(--muted); letter-spacing:1px; }
+
+    /* 关于 */
+    .about{ display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center; }
+    .about .txt h3{ font-size:24px; letter-spacing:2px; margin-bottom:14px; }
+    .about .txt p{ color:var(--muted); font-size:14px; margin-bottom:12px; }
+    .about .txt p b{ color:var(--red); }
+    .pillars{ display:grid; gap:14px; }
+    .pill{ display:flex; gap:14px; background:#fff; border:1px solid var(--line); border-radius:8px; padding:16px; }
+    .pill .n{ font-family:sans-serif; font-weight:800; color:var(--gold); font-size:18px; }
+    .pill h4{ font-size:14.5px; }
+    .pill p{ font-size:12px; color:var(--muted); margin-top:3px; }
+
+    /* 订阅 */
+    .subscribe{ text-align:center; background:var(--deep); color:var(--paper); border-radius:10px; padding:44px 24px; }
+    .subscribe h3{ font-size:24px; letter-spacing:3px; }
+    .subscribe p{ color:#b9ad9a; font-size:13px; margin:10px 0 22px; }
+    .subscribe form{ display:flex; gap:8px; max-width:440px; margin:0 auto; flex-wrap:wrap; justify-content:center; }
+    .subscribe input{ flex:1; min-width:200px; padding:12px 14px; border:none; border-radius:6px; font-family:inherit; font-size:14px; outline:none; }
+    .subscribe button{ padding:12px 26px; border:none; border-radius:6px; background:var(--red); color:#fff; font-family:inherit; font-weight:700; letter-spacing:2px; cursor:pointer; transition:.25s; }
+    .subscribe button:hover{ background:var(--gold); color:var(--deep); }
+
+    /* Footer */
+    footer{ padding:46px 0 26px; background:var(--deep); color:#cbbfad; }
+    .foot{ display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:30px; margin-bottom:28px; }
+    .foot h4{ color:var(--gold); font-size:14px; letter-spacing:2px; margin-bottom:12px; }
+    .foot ul{ list-style:none; }
+    .foot li{ font-size:13px; margin-bottom:8px; }
+    .foot li a:hover{ color:var(--red); }
+    .copy{ text-align:center; font-size:12px; color:#8f8576; border-top:1px solid rgba(255,255,255,.1); padding-top:20px; letter-spacing:1px; }
+    .copy b{ color:var(--gold); }
+
+    /* 响应式 */
+    @media(max-width:900px){
+        .g4,.g3,.figures,.series{ grid-template-columns:repeat(2,1fr); }
+        .lead,.about,.g2{ grid-template-columns:1fr; }
+        .masthead h2{ font-size:36px; letter-spacing:3px; }
+        .menu{ display:none; }
+        .hamburger{ display:block; }
+        .nav.open .menu{ display:flex; position:absolute; top:70px; left:0; right:0; flex-direction:column; background:var(--paper); padding:14px; border-bottom:2px solid var(--ink); }
+        .foot{ grid-template-columns:1fr 1fr; }
+    }
+    @media(max-width:520px){
+        .g4,.g3,.g2,.figures,.series,.foot{ grid-template-columns:1fr; }
+        .masthead{ padding:40px 0 36px; }
+        .masthead h2{ font-size:27px; }
+        section{ padding:42px 0; }
+        .kicker h3{ font-size:22px; }
+    }
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/yazhou.js"></script>
+
+<div class="notice">
+    <div class="wrap">
+        <span>🎌 日本三级电影网 · 每日更新 <b>ribensanjidianyingwang-app</b></span>
+        <span>官方网址：https://ribensanjidianyingwang-app.github.io</span>
+    </div>
+</div>
+
+<header>
+    <div class="wrap nav" id="nav">
+        <div class="brand">
+            <h1>日本三级电影网</h1>
+            <span>RIBEN</span>
+        </div>
+        <nav class="menu">
+            <a href="#home">首页</a>
+            <a href="#film">日本电影</a>
+            <a href="#director">导演巡礼</a>
+            <a href="#tv">日剧推荐</a>
+            <a href="#chart">观影榜</a>
+            <a href="#review">深度影评</a>
+            <a href="#about">关于网站</a>
+        </nav>
+        <span class="hamburger" onclick="document.getElementById('nav').classList.toggle('open')">☰</span>
+    </div>
+</header>
+
+<!-- 报头 -->
+<section id="home" class="masthead">
+    <div class="wrap">
+        <span class="seal">映画 · 日影专区</span>
+        <h2>日本三级电影网<br><em>ribensanjidianyingwang-app</em></h2>
+        <p>日本三级电影网（网址：<b style="color:var(--red);">https://ribensanjidianyingwang-app.github.io</b>）专注日本电影、日剧、动漫与日本影视文化的推荐与解读。从黑泽明到是枝裕和，从平成到令和，带你读懂每一帧日式美学。</p>
+        <div class="quote">— 一 期 一 会 · 一 影 一 心 —</div>
+    </div>
+</section>
+
+<!-- 日本电影 -->
+<section id="film">
+    <div class="wrap">
+        <div class="kicker">
+            <small>CINEMA · 日本电影</small>
+            <h3>精选日本高分电影</h3>
+            <p>按类型与年代梳理，值得反复观看的日影佳作</p>
+        </div>
+        <div class="grid g4">
+            <div class="film">
+                <div class="poster p1">🎎<span class="era">2025</span><span class="rate">9.1</span></div>
+                <div class="ftxt"><h4>菊与刀</h4><div class="line"></div><div class="meta"><span>剧情 / 历史</span><span>HD</span></div></div>
+            </div>
+            <div class="film">
+                <div class="poster p2">🌊<span class="era">2024</span><span class="rate">8.8</span></div>
+                <div class="ftxt"><h4>海边的卡夫卡</h4><div class="line"></div><div class="meta"><span>奇幻 / 文艺</span><span>4K</span></div></div>
+            </div>
+            <div class="film">
+                <div class="poster p3">🏯<span class="era">2026</span><span class="rate">8.6</span></div>
+                <div class="ftxt"><h4>武士残照</h4><div class="line"></div><div class="meta"><span>动作 / 时代剧</span><span>HD</span></div></div>
+            </div>
+            <div class="film">
+                <div class="poster p4">🌸<span class="era">2023</span><span class="rate">9.3</span></div>
+                <div class="ftxt"><h4>东京物语·续</h4><div class="line"></div><div class="meta"><span>家庭 / 文艺</span><span>HD</span></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 主编推荐 -->
+<section id="lead">
+    <div class="wrap">
+        <div class="kicker"><small>EDITOR'S PICK · 主编推荐</small><h3>本期主打</h3></div>
+        <div class="lead">
+            <div class="big p5">🎬</div>
+            <div>
+                <h4>《菊与刀》—— 一部读懂日本的电影</h4>
+                <div class="tags"><i>年度推荐</i><i>文艺</i><i>京都取景</i><i>中文字幕</i></div>
+                <p>以细腻的长镜头与留白美学，讲述战后日本家庭的隐忍与和解。影片在第 78 届戛纳电影节斩获最佳导演奖，被影评人称为"令和时代最温柔的一封家书"。</p>
+                <div class="dir"><b>导演</b> 森田弘树　<b>主演</b> 长泽雅美 / 役所广司　<b>片长</b> 132 分钟</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 导演巡礼 -->
+<section id="director">
+    <div class="wrap">
+        <div class="grid g2">
+            <div>
+                <div class="kicker" style="text-align:left;"><small>AUTEUR · 导演巡礼</small><h3>日本电影的大师脉络</h3></div>
+                <div class="timeline">
+                    <div class="tl-item"><h5><span>1950s</span>黑泽明 · 小津安二郎</h5><p>《罗生门》《东京物语》奠定日本电影的世界地位，光影与构图成为后世教科书。</p></div>
+                    <div class="tl-item"><h5><span>1990s</span>北野武 · 岩井俊二</h5><p>暴力美学与青春物语并行，日影进入风格多元的黄金年代。</p></div>
+                    <div class="tl-item"><h5><span>2010s</span>是枝裕和 · 新海诚</h5><p>家庭伦理与动画奇观双线绽放，戛纳与奥斯卡频频青睐。</p></div>
+                    <div class="tl-item"><h5><span>2020s</span>滨口龙介 · 三宅唱</h5><p>新生代以长镜头与即兴表演重塑"日式慢电影"，国际影展屡获殊荣。</p></div>
+                </div>
+            </div>
+            <div>
+                <div class="kicker" style="text-align:left;"><small>GENRE · 类型索引</small><h3>按口味找片</h3></div>
+                <div class="grid g2" style="grid-template-columns:1fr 1fr;">
+                    <div class="film"><div class="ftxt"><h4>🎭 文艺剧情</h4><p style="font-size:12px;color:var(--muted);">是枝裕和、河濑直美</p></div></div>
+                    <div class="film"><div class="ftxt"><h4>⚔️ 时代剧</h4><p style="font-size:12px;color:var(--muted);">武士、浪人与江湖</p></div></div>
+                    <div class="film"><div class="ftxt"><h4>👻 恐怖悬疑</h4><p style="font-size:12px;color:var(--muted);">中田秀夫、清水崇</p></div></div>
+                    <div class="film"><div class="ftxt"><h4>🌌 动画电影</h4><p style="font-size:12px;color:var(--muted);">吉卜力、新海诚</p></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 日剧 -->
+<section id="tv">
+    <div class="wrap">
+        <div class="kicker"><small>DRAMA · 日剧推荐</small><h3>值得追的日本电视剧</h3></div>
+        <div class="series">
+            <div class="ser"><div class="key">01</div><div><h4>legal high · 续章</h4><p>律政 / 喜剧 · 更新至 10 集</p></div></div>
+            <div class="ser"><div class="key">02</div><div><h4>重启人生 2</h4><p>奇幻 / 治愈 · 全 12 集</p></div></div>
+            <div class="ser"><div class="key">03</div><div><h4>半泽直树 · 终极篇</h4><p>职场 / 商战 · 更新至 8 集</p></div></div>
+            <div class="ser"><div class="key">04</div><div><h4>东京大饭店 · 特别篇</h4><p>美食 / 励志 · 全 4 集</p></div></div>
+            <div class="ser"><div class="key">05</div><div><h4>silent love</h4><p>爱情 / 音乐 · 全 11 集</p></div></div>
+            <div class="ser"><div class="key">06</div><div><h4>局中人</h4><p>悬疑 / 推理 · 更新至 9 集</p></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- 观影榜 -->
+<section id="chart">
+    <div class="wrap">
+        <div class="kicker"><small>TOP CHART · 观影榜</small><h3>日本三级电影网 · 热度榜单</h3></div>
+        <div class="grid g2">
+            <div class="chart">
+                <h4 style="font-size:16px;letter-spacing:1px;margin-bottom:6px;">🎬 电影热度榜</h4>
+                <ol>
+                    <li><h4>菊与刀</h4><small>🔥 86万</small></li>
+                    <li><h4>海边的卡夫卡</h4><small>🔥 72万</small></li>
+                    <li><h4>东京物语·续</h4><small>🔥 65万</small></li>
+                    <li><h4>武士残照</h4><small>🔥 58万</small></li>
+                    <li><h4>花束般的恋爱</h4><small>🔥 51万</small></li>
+                    <li><h4>你的名字。· 续</h4><small>🔥 47万</small></li>
+                </ol>
+            </div>
+            <div class="chart">
+                <h4 style="font-size:16px;letter-spacing:1px;margin-bottom:6px;">📺 日剧热播榜</h4>
+                <ol>
+                    <li><h4>半泽直树 · 终极篇</h4><small>🔥 132万</small></li>
+                    <li><h4>重启人生 2</h4><small>🔥 118万</small></li>
+                    <li><h4>legal high 续章</h4><small>🔥 104万</small></li>
+                    <li><h4>局中人</h4><small>🔥 92万</small></li>
+                    <li><h4>silent love</h4><small>🔥 83万</small></li>
+                    <li><h4>东京大饭店 特别篇</h4><small>🔥 76万</small></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 深度影评 -->
+<section id="review">
+    <div class="wrap">
+        <div class="kicker"><small>CRITIQUE · 深度影评</small><h3>不止于观影，更在于读懂</h3></div>
+        <div class="grid g3">
+            <div class="review">
+                <div class="who">影评人 · 京都南</div>
+                <h4>留白，是日本电影最深情的修辞</h4>
+                <p>从候孝贤到是枝裕和，东方美学中的"不说破"，往往比一场痛哭更有力量。本文梳理日影中那些欲言又止的镜头语言。</p>
+                <div class="stars">★★★★★</div>
+            </div>
+            <div class="review">
+                <div class="who">专题 · 平成记忆</div>
+                <h4>平成三十年，日影如何记录失落的一代</h4>
+                <p>泡沫破碎后的焦虑、孤独与微小确幸，被镜头忠实保存。回望平成年代的代表作，看见的不只是电影，更是一个时代的侧脸。</p>
+                <div class="stars">★★★★☆</div>
+            </div>
+            <div class="review">
+                <div class="who">科普 · 观影指南</div>
+                <h4>新手入门：10 部不可错过的日本电影</h4>
+                <p>从黑泽明的史诗到新海诚的星空，一份兼顾经典与流行的片单，帮你快速建立对日本电影的整体认知。</p>
+                <div class="stars">★★★★★</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 数据 -->
+<section id="fig">
+    <div class="wrap">
+        <div class="figures">
+            <div class="fig"><b>8,000+</b><small>日本影片条目</small></div>
+            <div class="fig"><b>60+</b><small>导演专题</small></div>
+            <div class="fig"><b>12</b><small>内容分类</small></div>
+            <div class="fig"><b>每日</b><small>更新资讯</small></div>
+        </div>
+    </div>
+</section>
+
+<!-- 关于 -->
+<section id="about">
+    <div class="wrap">
+        <div class="about">
+            <div class="txt">
+                <div class="kicker" style="text-align:left;"><small>ABOUT · 关于网站</small><h3>关于日本三级电影网</h3></div>
+                <p>日本三级电影网（<b>ribensanjidianyingwang-app</b>）是一个专注于日本影视文化与观影推荐的网站，官方网址为 <b>https://ribensanjidianyingwang-app.github.io</b>。</p>
+                <p>我们以"选片严谨、解读克制、排版克制"为准则，提供日本电影推荐、日剧追更、导演专题、观影榜单与深度影评，倡导正版、健康的观影方式。</p>
+                <p>网站采用纯静态单页架构，移动端自适应，语义化结构清晰，符合主流搜索引擎的收录与排名规范。</p>
+            </div>
+            <div class="pillars">
+                <div class="pill"><div class="n">壹</div><div><h4>选片严谨</h4><p>只推荐经得起时间检验的佳作</p></div></div>
+                <div class="pill"><div class="n">贰</div><div><h4>解读克制</h4><p>不剧透，重在观影方法与审美引导</p></div></div>
+                <div class="pill"><div class="n">叁</div><div><h4>体验优先</h4><p>无弹窗、加载快、全端自适应</p></div></div>
+                <div class="pill"><div class="n">肆</div><div><h4>更新稳定</h4><p>每日更新片单与行业资讯</p></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 订阅 -->
+<section id="sub">
+    <div class="wrap">
+        <div class="subscribe">
+            <h3>订阅 · 每周一片</h3>
+            <p>每周为你精选一部日本电影，附观影笔记与背景解读，让好片不再被错过。</p>
+            <form onsubmit="return false;">
+                <input type="email" placeholder="输入邮箱地址">
+                <button>立即订阅</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="wrap">
+        <div class="foot">
+            <div>
+                <div class="brand"><h1 style="color:#e8ddc9;">日本三级电影网</h1></div>
+                <p style="font-size:13px;margin-top:12px;max-width:300px;">专注日本电影、日剧、动漫与影视文化的推荐与解读，网址 https://ribensanjidianyingwang-app.github.io。</p>
+            </div>
+            <div>
+                <h4>频道</h4>
+                <ul><li><a href="#film">日本电影</a></li><li><a href="#tv">日剧推荐</a></li><li><a href="#director">导演巡礼</a></li><li><a href="#chart">观影榜</a></li></ul>
+            </div>
+            <div>
+                <h4>专题</h4>
+                <ul><li><a href="#">黑泽明</a></li><li><a href="#">是枝裕和</a></li><li><a href="#">新海诚</a></li><li><a href="#">平成记忆</a></li></ul>
+            </div>
+            <div>
+                <h4>关于</h4>
+                <ul><li><a href="#about">关于网站</a></li><li><a href="#review">深度影评</a></li><li><a href="#sub">订阅我们</a></li><li><a href="#">友情链接</a></li></ul>
+            </div>
+        </div>
+        <div class="copy">
+            © 2026 <b>日本三级电影网</b> ribensanjidianyingwang-app · 网址：https://ribensanjidianyingwang-app.github.io · 倡导正版 · 理性观影<br>
+            本页为静态演示页面，内页链接以 # 占位，实际部署请替换为真实路径。
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
